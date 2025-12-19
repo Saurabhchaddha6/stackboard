@@ -14,28 +14,29 @@ export default function Contacts() {
 
   return (
     <div>
-      <h1 className="text-xl mb-4">Contact Submissions</h1>
-
-      <table className="border w-full">
-        <thead>
-          <tr className="border-b">
-            <th>Name</th>
-            <th>Email</th>
-            <th>Mobile</th>
-            <th>City</th>
-          </tr>
-        </thead>
-        <tbody>
-          {contacts.map(c => (
-            <tr key={c._id} className="border-b text-center">
-              <td>{c.fullName}</td>
-              <td>{c.email}</td>
-              <td>{c.mobile}</td>
-              <td>{c.city}</td>
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">Contact Submissions</h1>
+      <div className="bg-white border border-gray-100 rounded-lg shadow-sm p-6">
+        <table className="w-full text-left">
+          <thead>
+            <tr className="border-b text-gray-500 text-sm">
+              <th className="py-2">Name</th>
+              <th className="py-2">Email</th>
+              <th className="py-2">Mobile</th>
+              <th className="py-2">City</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {contacts.map(c => (
+              <tr key={c._id} className="border-b last:border-0 text-center">
+                <td className="py-2 font-medium">{c.fullName}</td>
+                <td className="py-2 text-gray-600">{c.email}</td>
+                <td className="py-2 text-gray-600">{c.mobile}</td>
+                <td className="py-2 text-gray-600">{c.city}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

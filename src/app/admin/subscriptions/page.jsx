@@ -14,15 +14,23 @@ export default function Subscriptions() {
 
   return (
     <div>
-      <h1 className="text-xl mb-4">Newsletter Subscriptions</h1>
-
-      <ul className="space-y-2">
-        {subs.map(s => (
-          <li key={s._id} className="border p-2">
-            {s.email}
-          </li>
-        ))}
-      </ul>
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">Newsletter Subscriptions</h1>
+      <div className="bg-white border border-gray-100 rounded-lg shadow-sm p-6 max-w-xl">
+        <table className="w-full text-left">
+          <thead>
+            <tr className="border-b text-gray-500 text-sm">
+              <th className="py-2">Email</th>
+            </tr>
+          </thead>
+          <tbody>
+            {subs.map(s => (
+              <tr key={s._id} className="border-b last:border-0">
+                <td className="py-2 font-medium">{s.email}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
