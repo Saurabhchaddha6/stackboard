@@ -1,65 +1,140 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [projects, setProjects] = useState([]);
+  const [clients, setClients] = useState([]);
+  const [contact, setContact] = useState({
+    fullName: "",
+    email: "",
+    mobile: "",
+    city: "",
+  });
+  const [newsletter, setNewsletter] = useState("");
+  const [msg, setMsg] = useState("");
+
+  useEffect(() => {
+    fetch("/api/projects")
+      .then(res => res.json())
+      .then(setProjects);
+
+    fetch("/api/clients")
+      .then(res => res.json())
+      .then(setClients);
+  }, []);
+
+  async function submitContact(e) {
+    e.preventDefault();
+    await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(contact),
+    });
+    setContact({ fullName: "", email: "", mobile: "", city: "" });
+    setMsg("Contact form submitted");
+  }
+
+  async function subscribe(e) {
+    e.preventDefault();
+    await fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: newsletter }),
+    });
+    setNewsletter("");
+    setMsg("Subscribed successfully");
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="space-y-20 p-10">
+
+      {/* HERO */}
+      <section className="text-center space-y-4">
+        <h1 className="text-4xl font-bold">Welcome to Our Company</h1>
+        <p className="text-gray-600">
+          We build high quality projects for amazing clients
+        </p>
+      </section>
+
+      {/* PROJECTS */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-6">Our Projects</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {projects.map(p => (
+            <div key={p._id} className="border p-4 space-y-2">
+              <img src={p.image} className="w-full h-40 object-cover" />
+              <h3 className="font-bold">{p.name}</h3>
+              <p className="text-sm text-gray-600">{p.description}</p>
+              <button className="text-sm underline">Read More</button>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* CLIENTS */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-6">Happy Clients</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {clients.map(c => (
+            <div key={c._id} className="border p-4 space-y-2">
+              <img src={c.image} className="w-16 h-16 rounded-full" />
+              <h3 className="font-bold">{c.name}</h3>
+              <p className="text-sm">{c.designation}</p>
+              <p className="text-sm text-gray-600">{c.description}</p>
+            </div>
+          ))}
         </div>
-      </main>
+      </section>
+
+      {/* CONTACT FORM */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Contact Us</h2>
+
+        <form onSubmit={submitContact} className="grid gap-3 max-w-md">
+          <input
+            placeholder="Full Name"
+            className="border p-2"
+            value={contact.fullName}
+            onChange={e => setContact({ ...contact, fullName: e.target.value })}
+          />
+          <input
+            placeholder="Email"
+            className="border p-2"
+            value={contact.email}
+            onChange={e => setContact({ ...contact, email: e.target.value })}
+          />
+          <input
+            placeholder="Mobile"
+            className="border p-2"
+            value={contact.mobile}
+            onChange={e => setContact({ ...contact, mobile: e.target.value })}
+          />
+          <input
+            placeholder="City"
+            className="border p-2"
+            value={contact.city}
+            onChange={e => setContact({ ...contact, city: e.target.value })}
+          />
+          <button className="bg-black text-white py-2">Submit</button>
+        </form>
+      </section>
+
+      {/* NEWSLETTER */}
+      <section>
+        <h2 className="text-2xl font-semibold mb-4">Newsletter</h2>
+
+        <form onSubmit={subscribe} className="flex gap-2 max-w-md">
+          <input
+            placeholder="Enter your email"
+            className="border p-2 flex-1"
+            value={newsletter}
+            onChange={e => setNewsletter(e.target.value)}
+          />
+          <button className="bg-black text-white px-4">Subscribe</button>
+        </form>
+      </section>
+
+      {msg && <p className="text-green-600">{msg}</p>}
     </div>
   );
 }
