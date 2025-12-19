@@ -54,33 +54,77 @@ export default function Home() {
         <a href="#contact" className="inline-block bg-gray-800 text-white px-8 py-3 rounded-lg font-semibold shadow hover:bg-gray-700 transition">Get in Touch</a>
       </section>
 
-      {/* PROJECTS */}
+      {/* PROJECTS - SLIDER */}
       <section className="max-w-6xl mx-auto px-4 mb-20">
         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Our Projects</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {projects.map(p => (
-            <div key={p._id} className="bg-white border border-gray-100 rounded-2xl shadow-md p-6 flex flex-col gap-3 hover:shadow-lg transition">
-              <img src={p.image} className="w-full h-44 object-cover rounded-lg mb-2" />
-              <h3 className="font-semibold text-lg text-gray-700">{p.name}</h3>
-              <p className="text-sm text-gray-500 line-clamp-3">{p.description}</p>
-              <button className="text-xs text-gray-600 underline self-start mt-2">Read More</button>
-            </div>
-          ))}
+        <div className="relative">
+          <button
+            aria-label="Scroll projects left"
+            onClick={() => document.getElementById('projects-slider').scrollBy({ left: -350, behavior: 'smooth' })}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 rounded-full shadow p-2 hover:bg-gray-100 transition hidden md:block"
+            style={{marginLeft: '-2rem'}}
+          >
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <div
+            id="projects-slider"
+            className="flex gap-8 overflow-x-auto scrollbar-hide scroll-smooth py-2 px-1"
+            style={{scrollbarWidth: 'none'}}
+          >
+            {projects.map(p => (
+              <div key={p._id} className="min-w-[320px] max-w-xs bg-white border border-gray-100 rounded-2xl shadow-md p-6 flex flex-col gap-3 hover:shadow-lg transition">
+                <img src={p.image} className="w-full h-44 object-cover rounded-lg mb-2" />
+                <h3 className="font-semibold text-lg text-gray-700">{p.name}</h3>
+                <p className="text-sm text-gray-500 line-clamp-3">{p.description}</p>
+                <button className="text-xs text-gray-600 underline self-start mt-2">Read More</button>
+              </div>
+            ))}
+          </div>
+          <button
+            aria-label="Scroll projects right"
+            onClick={() => document.getElementById('projects-slider').scrollBy({ left: 350, behavior: 'smooth' })}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 rounded-full shadow p-2 hover:bg-gray-100 transition hidden md:block"
+            style={{marginRight: '-2rem'}}
+          >
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
         </div>
       </section>
 
-      {/* CLIENTS */}
+      {/* CLIENTS - SLIDER */}
       <section className="max-w-6xl mx-auto px-4 mb-20">
         <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Happy Clients</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {clients.map(c => (
-            <div key={c._id} className="bg-white border border-gray-100 rounded-2xl shadow-md p-6 flex flex-col gap-2 items-center hover:shadow-lg transition">
-              <img src={c.image} className="w-20 h-20 rounded-full mb-3 border-2 border-gray-200 object-cover" />
-              <h3 className="font-semibold text-gray-700 text-lg">{c.name}</h3>
-              <p className="text-sm text-gray-500">{c.designation}</p>
-              <p className="text-sm text-gray-500 text-center">{c.description}</p>
-            </div>
-          ))}
+        <div className="relative">
+          <button
+            aria-label="Scroll clients left"
+            onClick={() => document.getElementById('clients-slider').scrollBy({ left: -350, behavior: 'smooth' })}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 rounded-full shadow p-2 hover:bg-gray-100 transition hidden md:block"
+            style={{marginLeft: '-2rem'}}
+          >
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg>
+          </button>
+          <div
+            id="clients-slider"
+            className="flex gap-8 overflow-x-auto scrollbar-hide scroll-smooth py-2 px-1"
+            style={{scrollbarWidth: 'none'}}
+          >
+            {clients.map(c => (
+              <div key={c._id} className="min-w-[320px] max-w-xs bg-white border border-gray-100 rounded-2xl shadow-md p-6 flex flex-col gap-2 items-center hover:shadow-lg transition">
+                <img src={c.image} className="w-20 h-20 rounded-full mb-3 border-2 border-gray-200 object-cover" />
+                <h3 className="font-semibold text-gray-700 text-lg">{c.name}</h3>
+                <p className="text-sm text-gray-500">{c.designation}</p>
+                <p className="text-sm text-gray-500 text-center">{c.description}</p>
+              </div>
+            ))}
+          </div>
+          <button
+            aria-label="Scroll clients right"
+            onClick={() => document.getElementById('clients-slider').scrollBy({ left: 350, behavior: 'smooth' })}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white border border-gray-200 rounded-full shadow p-2 hover:bg-gray-100 transition hidden md:block"
+            style={{marginRight: '-2rem'}}
+          >
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
         </div>
       </section>
 
